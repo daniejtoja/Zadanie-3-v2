@@ -10,6 +10,7 @@
 #include <fstream>
 #include <string>
 using namespace std;
+
 int numberOfpeople = 0;
 
 struct birthDate {
@@ -104,12 +105,9 @@ bool loadPpl(string fileName){
             tail_byAge = NewlyCreated;
             tail_byAlph->next_byAlph = NewlyCreated;
             tail_byAlph = NewlyCreated;
-        }
-        
-        if (i == (number_of_persons-1)) {
+        } else {
             tail_byAge->next_byAge = NULL;
             tail_byAlph->next_byAlph = NULL;
-            
         }
         
     }
@@ -136,17 +134,17 @@ struct node* swap_byAge(node* ptr1, node* ptr2)
     return ptr2;
 }
 
-void bubbleSort_byAlph(node** head, int count)
+void bubbleSort_byAlph(node** head, int people)
 {
     struct node** h;
     int i, j, swapped;
   
-    for (i = 0; i <= count; i++) {
+    for (i = 0; i <= people; i++) {
   
         h = head;
         swapped = 0;
   
-        for (j = 0; j < count - i - 1; j++) {
+        for (j = 0; j < people - i - 1; j++) {
   
             struct node* p1 = *h;
             struct node* p2 = p1->next_byAlph;
@@ -167,16 +165,16 @@ void bubbleSort_byAlph(node** head, int count)
 }
 
 
-void bubbleSort_byAge(node** head, int count){
+void bubbleSort_byAge(node** head, int people){
                 struct node** h;
                 int i, j, swapped;
               
-                for (i = 0; i <= count; i++) {
+                for (i = 0; i <= people; i++) {
               
                     h = head;
                     swapped = 0;
               
-                    for (j = 0; j < count - i - 1; j++) {
+                    for (j = 0; j < people - i - 1; j++) {
               
                         struct node* p1 = *h;
                         struct node* p2 = p1->next_byAge;
