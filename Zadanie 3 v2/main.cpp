@@ -259,27 +259,30 @@ int main() {
     cout << "Wyświetl listę posortowaną w sposób: 1 - alfabetyczny, 2 - wiek malejąco, 3 - oba sposoby: ";
     cin >> opcja;
     
-    if (opcja == 1) {
-        cout << endl;
-        displayByAlph(head_byAlph);
-        return 0;
-    } else if (opcja == 2) {
-        cout << endl;
-        displayByAge(head_byAge);
-        return 0;
-    } else if (opcja == 3){
-        cout << endl;
-        displayByAlph(head_byAlph);
-        cout << endl;
-        displayByAge(head_byAge);
-        return 0;
-    } else {
-        cout << "Zły numer funkcji." << endl;
-        return 0;
+    switch (opcja) {
+        case 1:
+            cout << endl;
+            displayByAlph(head_byAlph);
+            break;
+            
+        case 2:
+            cout << endl;
+            displayByAge(head_byAge);
+            break;
+            
+        case 3:
+            cout << endl;
+            displayByAlph(head_byAlph);
+            cout << endl;
+            displayByAge(head_byAge);
+            break;
+            
+        default:
+            cout << "Zły numer funkcji." << endl;
+            break;
     }
     
-    
-    
+    return 0;
     
 }
                 
