@@ -136,27 +136,25 @@ struct node* swap_byAge(node* ptr1, node* ptr2)
 
 void bubbleSort_byAlph(node** head, int people)
 {
-    struct node** h;
+    struct node** temp;
     int i, j, swapped;
   
     for (i = 0; i <= people; i++) {
   
-        h = head;
+        temp = head;
         swapped = 0;
   
         for (j = 0; j < people - i - 1; j++) {
   
-            struct node* p1 = *h;
+            struct node* p1 = *temp;
             struct node* p2 = p1->next_byAlph;
   
             if (p1->student.surname.compare(p2->student.surname) > 0) {
-  
-                /* update the link after swapping */
-                *h = swap_byAlph(p1, p2);
+                *temp = swap_byAlph(p1, p2);
                 swapped = 1;
             }
   
-            h = &(*h)->next_byAlph;
+            temp = &(*temp)->next_byAlph;
         }
   
         if (swapped == 0)
@@ -166,35 +164,43 @@ void bubbleSort_byAlph(node** head, int people)
 
 
 void bubbleSort_byAge(node** head, int people){
-                struct node** h;
+                struct node** temp;
                 int i, j, swapped;
               
                 for (i = 0; i <= people; i++) {
               
-                    h = head;
+                    temp = head;
                     swapped = 0;
               
                     for (j = 0; j < people - i - 1; j++) {
               
-                        struct node* p1 = *h;
+                        struct node* p1 = *temp;
                         struct node* p2 = p1->next_byAge;
               
                         if (p1->date.year > p2->date.year) {
-                            *h = swap_byAge(p1, p2);
+                            
+                            *temp = swap_byAge(p1, p2);
                             swapped = 1;
+                            
                         } else if (p1->date.year == p2->date.year){
+                            
                             if (p1->date.month > p2->date.month) {
-                                *h = swap_byAge(p1, p2);
+                                
+                                *temp = swap_byAge(p1, p2);
                                 swapped = 1;
+                                
                             } else if (p1->date.month == p2->date.month){
+                                
                                 if (p1->date.day > p2->date.day) {
-                                    *h = swap_byAge(p1, p2);
+                                    
+                                    *temp = swap_byAge(p1, p2);
                                     swapped = 1;
+                                    
                                 }
                             }
                         }
               
-                        h = &(*h)->next_byAge;
+                        temp = &(*temp)->next_byAge;
                     }
               
                     if (swapped == 0)
