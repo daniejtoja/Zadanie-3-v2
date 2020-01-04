@@ -7,9 +7,257 @@
 //
 
 #include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+int numberOfpeople = 0;
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
-    return 0;
+struct birthDate {
+    int day;
+    int month;
+    int year;
+};
+
+struct Person {
+    string surname;
+};
+
+struct node {
+    Person student;
+    birthDate date;
+    node * next_byAge;
+    node * next_byAlph;
+};
+
+node* NewlyCreated;
+node* head_byAge;
+node* head_byAlph;
+node* tail_byAge;
+node* tail_byAlph;
+
+bool loadPpl(string fileName){
+    fstream listFile;
+    listFile.open(fileName);
+    
+    if (!listFile.is_open()) {
+        cout << "Error. Nie udało się otworzyć pliku.";
+        return false;
+    }
+    
+    string line_to_count;
+    int number_of_lines = 0;
+    int number_of_persons = 0;
+    
+    while (getline(listFile, line_to_count)) {
+        ++number_of_lines;
+    }
+    
+    if (number_of_lines%4 != 0) {
+        cout << "Niepełne dane.";
+        return false;
+    } else {
+        number_of_persons = number_of_lines / 4;
+        cout << "Linijki w pliku: " << number_of_lines << endl;
+        cout << "Liczba osób: " << number_of_persons << endl;
+    }
+    
+    numberOfpeople = number_of_persons;
+    
+    listFile.clear();               //wracamy do
+    listFile.seekg(0, ios::beg);    //początku pliku
+    
+    
+    string line;
+    
+    for (int i = 0; i < number_of_persons; ++i) {
+
+       
+        if (i == 0) {
+            NewlyCreated = new node;
+            head_byAge = NewlyCreated;
+            tail_byAge = NewlyCreated;
+            head_byAlph = NewlyCreated;
+            tail_byAlph = NewlyCreated;
+        }
+        
+        for (int i = 0; i < 4 && getline(listFile, line); ++i) {
+            if (i == 0) {
+                NewlyCreated->student.surname = line;
+            }
+            
+            if (i == 1) {
+                NewlyCreated->date.day = stoi(line);        //
+            }                                               //Stoi pozwala przekształcić string na
+                                                            //na wartość
+            if (i == 2) {                                   //
+                NewlyCreated->date.month = stoi(line);      //
+            }                                               //
+                                                            //
+            if (i == 3) {                                   //
+                NewlyCreated->date.year = stoi(line);       //
+            }
+        }
+        
+        if (i != (number_of_persons-1)) {
+            NewlyCreated = new node;
+            tail_byAge->next_byAge = NewlyCreated;
+            tail_byAge = NewlyCreated;
+            tail_byAlph->next_byAlph = NewlyCreated;
+            tail_byAlph = NewlyCreated;
+        }
+        
+        if (i == (number_of_persons-1)) {
+            tail_byAge->next_byAge = NULL;
+            tail_byAlph->next_byAlph = NULL;
+            
+        }
+        
+    }
+    
+    return true;
+    
 }
+
+
+
+struct node* swap_byAlph(node* ptr1, node* ptr2)
+{
+    node* tmp = ptr2->next_byAlph;
+    ptr2->next_byAlph = ptr1;
+    ptr1->next_byAlph = tmp;
+    return ptr2;
+}
+
+struct node* swap_byAge(node* ptr1, node* ptr2)
+{
+    node* tmp = ptr2->next_byAge;
+    ptr2->next_byAge = ptr1;
+    ptr1->next_byAge = tmp;
+    return ptr2;
+}
+
+void bubbleSort_byAlph(node** head, int count)
+{
+    struct node** h;
+    int i, j, swapped;
+  
+    for (i = 0; i <= count; i++) {
+  
+        h = head;
+        swapped = 0;
+  
+        for (j = 0; j < count - i - 1; j++) {
+  
+            struct node* p1 = *h;
+            struct node* p2 = p1->next_byAlph;
+  
+            if (p1->student.surname.compare(p2->student.surname) > 0) {
+  
+                /* update the link after swapping */
+                *h = swap_byAlph(p1, p2);
+                swapped = 1;
+            }
+  
+            h = &(*h)->next_byAlph;
+        }
+  
+        if (swapped == 0)
+            break;
+    }
+}
+
+
+void bubbleSort_byAge(node** head, int count){
+                struct node** h;
+                int i, j, swapped;
+              
+                for (i = 0; i <= count; i++) {
+              
+                    h = head;
+                    swapped = 0;
+              
+                    for (j = 0; j < count - i - 1; j++) {
+              
+                        struct node* p1 = *h;
+                        struct node* p2 = p1->next_byAge;
+              
+                        if (p1->date.year > p2->date.year) {
+                            *h = swap_byAge(p1, p2);
+                            swapped = 1;
+                        } else if (p1->date.year == p2->date.year){
+                            if (p1->date.month > p2->date.month) {
+                                *h = swap_byAge(p1, p2);
+                                swapped = 1;
+                            } else if (p1->date.month == p2->date.month){
+                                if (p1->date.day > p2->date.day) {
+                                    *h = swap_byAge(p1, p2);
+                                    swapped = 1;
+                                }
+                            }
+                        }
+              
+                        h = &(*h)->next_byAge;
+                    }
+              
+                    if (swapped == 0)
+                        break;
+                }
+}
+
+                
+
+
+
+
+
+void displayByAge(node * head){
+    
+    node* displayPerson;
+    displayPerson = head;
+    
+    while (displayPerson != NULL) {
+        cout << displayPerson->student.surname << endl;
+        cout << displayPerson->date.day << "/" << displayPerson->date.month << "/" << displayPerson->date.year << endl << endl;
+        
+        displayPerson = displayPerson->next_byAge;
+    }
+}
+
+void displayByAlph(node * head){
+    
+    node* pokazOsobe;
+    pokazOsobe = head;
+    
+    while (pokazOsobe != NULL) {
+        cout << pokazOsobe->student.surname << endl;
+        cout << pokazOsobe->date.day << "/" << pokazOsobe->date.month << "/" << pokazOsobe->date.year << endl << endl;
+        
+        pokazOsobe = pokazOsobe->next_byAlph;
+    }
+}
+
+    
+    
+
+
+
+
+int main() {
+    
+    string plik;
+    cout << "Proszę podać nazwę pliku z rozszerzeniem .txt: ";
+    cin >> plik;
+    
+    loadPpl(plik);
+    
+    
+    cout << endl << endl << endl;
+    bubbleSort_byAlph(&head_byAlph, numberOfpeople);
+    bubbleSort_byAge(&head_byAge, numberOfpeople);
+    
+    displayByAlph(head_byAlph);
+    
+    cout << endl << endl;
+    displayByAge(head_byAge);
+}
+                
