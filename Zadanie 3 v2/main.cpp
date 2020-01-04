@@ -245,19 +245,41 @@ void displayByAlph(node * head){
 int main() {
     
     string plik;
-    cout << "Proszę podać nazwę pliku z rozszerzeniem .txt: ";
+    cout << "Podaj nazwę pliku (włącznie z rozszerzeniem): ";
     cin >> plik;
     
     loadPpl(plik);
     
+    cout << endl << endl;
     
-    cout << endl << endl << endl;
     bubbleSort_byAlph(&head_byAlph, numberOfpeople);
     bubbleSort_byAge(&head_byAge, numberOfpeople);
     
-    displayByAlph(head_byAlph);
+    int opcja;
+    cout << "Wyświetl listę posortowaną w sposób: 1 - alfabetyczny, 2 - wiek malejąco, 3 - oba sposoby: ";
+    cin >> opcja;
     
-    cout << endl << endl;
-    displayByAge(head_byAge);
+    if (opcja == 1) {
+        cout << endl;
+        displayByAlph(head_byAlph);
+        return 0;
+    } else if (opcja == 2) {
+        cout << endl;
+        displayByAge(head_byAge);
+        return 0;
+    } else if (opcja == 3){
+        cout << endl;
+        displayByAlph(head_byAlph);
+        cout << endl;
+        displayByAge(head_byAge);
+        return 0;
+    } else {
+        cout << "Zły numer funkcji." << endl;
+        return 0;
+    }
+    
+    
+    
+    
 }
                 
