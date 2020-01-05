@@ -137,9 +137,10 @@ struct node* swap_byAge(node* ptr1, node* ptr2)
 void bubbleSort_byAlph(node** head, int people)
 {
     struct node** temp;
-    int i, j, swapped;
+    int i, j;
+    int swapped = 1;
   
-    for (i = 0; i <= people; i++) {
+    for (i = 0; i <= people && swapped != 0; i++) {
   
         temp = head;
         swapped = 0;
@@ -157,17 +158,16 @@ void bubbleSort_byAlph(node** head, int people)
             temp = &(*temp)->next_byAlph;
         }
   
-        if (swapped == 0)
-            break;
     }
 }
 
 
 void bubbleSort_byAge(node** head, int people){
                 struct node** temp;
-                int i, j, swapped;
+                int i, j;
+                int swapped = 1;
               
-                for (i = 0; i <= people; i++) {
+                for (i = 0; i <= people && swapped != 0; i++) {
               
                     temp = head;
                     swapped = 0;
@@ -203,8 +203,6 @@ void bubbleSort_byAge(node** head, int people){
                         temp = &(*temp)->next_byAge;
                     }
               
-                    if (swapped == 0)
-                        break;
                 }
 }
 
