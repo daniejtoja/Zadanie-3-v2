@@ -203,7 +203,7 @@ void bubbleSort_byAge(node** head, int people){
                         temp = &(*temp)->next_byAge;
                     }
               
-                }
+            }
 }
 
                 
@@ -250,7 +250,9 @@ int main() {
     cout << "Podaj nazwę pliku (włącznie z rozszerzeniem): ";
     cin >> plik;
     
-    loadPpl(plik);
+    if(!loadPpl(plik)){
+        return 0;
+    }
     
     cout << endl << endl;
     
